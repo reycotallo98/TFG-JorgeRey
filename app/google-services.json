@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "397957199958",
+    "project_id": "tfgjorge-429f0",
+    "storage_bucket": "tfgjorge-429f0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:397957199958:android:ee98155735fb6b642da3f7",
+        "android_client_info": {
+          "package_name": "com.example.tfg_jorgerey"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "397957199958-pc89ve7fv2tlbp1hkacouvqfh41mlhij.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCsvjBy_ozXSwXo7B7ukK4veljQxpUipw0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "397957199958-pc89ve7fv2tlbp1hkacouvqfh41mlhij.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
