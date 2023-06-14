@@ -21,7 +21,7 @@ class Cliente {
         writer.close()
         reader.close()
         socket.close()
-        respuesta = respuesta.substring(1,respuesta.length-1)
+        respuesta = respuesta.substring(2,respuesta.length-1)
         Log.d("Cliente","Recibo mensaje: "+ respuesta)
         return respuesta
     }

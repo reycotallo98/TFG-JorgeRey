@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
+import android.view.KeyEvent
 import android.view.View
 import android.widget.EditText
 import android.widget.ImageButton
@@ -30,7 +31,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var conversacion: java.util.ArrayList<Frase>
     private lateinit var conversacionSH: SharedPreferences
     private lateinit var contadorSH: SharedPreferences
-    private lateinit var user:SharedPreferences
     private lateinit var binding: ActivityMainBinding
     private lateinit var tex: EditText
     private lateinit var boton: ImageButton
@@ -38,16 +38,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        user = getSharedPreferences("usuario", Context.MODE_PRIVATE)
-        val usuario = ArrayList<String>()
-        for ((key, value) in user.all) {
-            val usurio = value.toString()
 
-            usuario.add(usurio)
-        }
-        if (usuario.size == 0) {
-
-        }
             binding = ActivityMainBinding.inflate(layoutInflater)
             setContentView(binding.root)
 
@@ -60,6 +51,15 @@ class MainActivity : AppCompatActivity() {
             showFrases()
             boton = binding.cm.button
             tex = binding.cm.editTextText
+            tex.setOnKeyListener((View.OnKeyListener { v, keyCode, event ->
+                if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_UP) {
+                    //Perform Code
+                    save(tex.text.toString())
+                    tex.text.clear()
+                    return@OnKeyListener true
+                }
+                false
+            }))
 
             boton.setOnClickListener(View.OnClickListener() {
                 save(tex.text.toString())
@@ -69,11 +69,10 @@ class MainActivity : AppCompatActivity() {
             rvfrases = binding.cm.recyclerView
             rvfrases.getLayoutManager()?.scrollToPosition(conversacion.size - 1);
 
+
     }
 
-    companion object {
-        private const val REQUEST_CODE_STT = 1
-    }
+
 
     fun initContador() {
         val c = contadorSH.getInt("c", -1)
@@ -90,11 +89,11 @@ class MainActivity : AppCompatActivity() {
 
     fun getFrases() {
         val fraseAll = conversacionSH.all
-        conversacion = ArrayList<Frase>()
-        for ((key, value) in fraseAll) {
-            val fraseJson = value.toString()
+        conversacion = ArrayList()
+        for (i in 1..fraseAll.size) {
+            val fraseJson = fraseAll.get("$i").toString()
             val frase = Gson().fromJson(fraseJson, Frase::class.java)
-            conversacion.add(frase)
+            conversacion.add(0,frase)
         }
     }
 
@@ -116,7 +115,7 @@ class MainActivity : AppCompatActivity() {
         // save en Share
         val editor = conversacionSH.edit()
         val fras = Frase(getContador(), false, frase)
-        editor.putString("$fras.id", Gson().toJson(fras))
+        editor.putString(fras.id.toString(), Gson().toJson(fras))
         editor.apply()
         var respue = ""
         conversacion.add(0, fras)
@@ -142,7 +141,7 @@ class MainActivity : AppCompatActivity() {
         // save en Share
         val editor = conversacionSH.edit()
 
-        editor.putString("${frase.id}", Gson().toJson(frase))
+        editor.putString(frase.id.toString(), Gson().toJson(frase))
         editor.apply()
         // add al ArrayList
         conversacion.add(0, frase)

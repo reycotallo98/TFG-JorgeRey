@@ -1,20 +1,16 @@
-package net.azarquiel.metroroom.util
+package com.example.tfg_jorgerey.util
 
 import android.content.Context
 import android.util.Log
 import android.widget.Toast
 import java.io.*
 
-/**
- * Autor: Paco Pulido 15/11/2019
- */
-
 class Util {
     companion object {
         private lateinit var context: Context
 
         fun inyecta(context: Context, fileDB:String) {
-            this.context = context
+            Companion.context = context
             if (!File("/data/data/${context.packageName}/databases/${fileDB}").exists()) {
                 Toast.makeText(context,"Copiando ${fileDB}....", Toast.LENGTH_LONG).show()
                 copiarFile(fileDB)
@@ -40,7 +36,7 @@ class Util {
                 input = context.assets.open(file)
                 output = FileOutputStream(ruta)
                 copyFile(input, output)
-                input!!.close()
+                input.close()
                 output.close()
             } catch (e: IOException) {
                 Log.e("Miapp", "Fallo en la copia del archivo desde el asset", e)
@@ -53,7 +49,7 @@ class Util {
             read = input!!.read(buffer)
             while (read != -1) {
                 output.write(buffer, 0, read)
-                read = input!!.read(buffer)
+                read = input.read(buffer)
             }
         }
     }
